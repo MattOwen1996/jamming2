@@ -5,6 +5,7 @@ import '../PlayList';
 import '../SearchBar';
 import '../SearchResults';
 import './App.css';
+import Spotify from '../../src/util/Spotify.js';
 
 class App extends Component {
   constructor(props) {
