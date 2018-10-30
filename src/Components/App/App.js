@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
+import ./logo.svg';
 import './App.css';
-import '../PlayList';
-import '../SearchBar';
-import '../SearchResults';
+import PlayList from '../PlayList/PlayList';
+import SearchBar from '../SearchBar/SearchBar';
+import SearchResults from '../SearchResults/SearchResults';
 import './App.css';
-import Spotify from '../../src/util/Spotify.js';
+import Spotify from '../../util/Spotify';
 
 class App extends Component {
   constructor(props) {
@@ -40,12 +40,12 @@ class App extends Component {
   }
 
 
-    savePlaylist() {
-      let trackURIs = this.state.playlistTracks.map(track => track.uri);
-      if (this.state.playlistName && trackURIs && trackURIs.length > 0) {
-        Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
-          console.log(`new playlist with '${this.state.playlistName}' and ${trackURIs.length} songs successfully saved.`);
-          this.setState({playlistName: 'New Playlist', playlistTracks: []});
+  savePlaylist() {
+    let trackURIs = this.state.playlistTracks.map(track => track.uri);
+    if (this.state.playlistName && trackURIs && trackURIs.length > 0) {
+      Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
+        console.log(`new playlist with '${this.state.playlistName}' and ${trackURIs.length} songs successfully saved.`);
+        this.setState({playlistName: 'New Playlist', playlistTracks: []});
       });
     }
   }
@@ -57,28 +57,12 @@ class App extends Component {
 
   render() {
       return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
-          <!-- Add a SearchBar component -->
+          <SearchBar onSearch={this.search}/>
           <div className="App-playlist">
-            <!-- Add a SearchResults component -->
+            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack}/>
             <Playlist tracks={this.state.playlistTracks} title={this.state.playlistName} onRemove={this.removeTrack}
 							onNameChange={this.updatePlaylistName} onSave={this.savePlaylist}/>
           </div>
